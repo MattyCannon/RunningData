@@ -3,7 +3,7 @@ import requests
 import logging
 import urllib3
 import os
-from py_dotenv import dotenv
+from dotenv import dotenv
 import pandas as pd
 import openpyxl
 
