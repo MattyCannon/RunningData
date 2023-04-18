@@ -1,6 +1,6 @@
 
 import requests
-import logging
+#import logging
 import urllib3
 import os
 #from dotenv import dotenv
