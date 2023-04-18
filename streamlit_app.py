@@ -6,7 +6,7 @@ import os
 #df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
 df_activities = pd.read_excel('data1.xlsx')
 
-summary = df_activities.head()
+summary = df_activities.filter(items = ['name', 'distance', 'moving_time', 'start_date']).head()
 st.header('My Running Data')
 st.header('Recent Runs: ')
 st.table(summary)
