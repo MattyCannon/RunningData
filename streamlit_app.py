@@ -2,6 +2,7 @@ import stravaConnect as sc
 import streamlit as st
 import pandas as pd
 import os
+import matplotlib as plt
 
 import datetime
 #df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
@@ -34,3 +35,4 @@ fig = plt.gcf()
 # Adding Circle in Pie chart
 fig.gca().add_artist(centre_circle)
 plt.title('Pie', x=0.5, y=0.55)
+st.pyplot(fig)
