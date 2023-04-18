@@ -1,5 +1,4 @@
 requests
-logging
 urllib3
 pandas
 openpyxl
