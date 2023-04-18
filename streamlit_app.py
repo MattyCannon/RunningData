@@ -19,8 +19,8 @@ def convert(seconds):
        else: return "%02d:%02d" % (minutes, seconds)
 
 summary = df_activities.head()
-summary['start_date'] = pd.to_datetime(summary['start_date']).dt.strftime('%Y/%m/%d')  # Convert start_date to datetime
-summary['distance'] = round(summary['distance']/1000, 2)
+summary['start_date'] = pd.to_datetime(summary['start_date']).dt.strftime('%d/%m/%Y')  # Convert start_date to datetime
+summary['distance'] = summary['distance'].apply(lambda x: round((x/1000),2))
 #summary['moving_time'] = np.floor(summary['moving_time']/60) #str(math.floor(summary['moving_time']/60)) #+ ':' + round(60*(summary['moving_time']/60 - math.floor(summary['moving_time']/60)), 2)
 summary['moving_time'] = summary['moving_time'].apply(convert)
 summary = summary.filter(items=['name', 'distance', 'moving_time', 'total_elevation_gain', 'start_date'])
@@ -42,7 +42,7 @@ fig = plt.gcf()
 
 # Adding Circle in Pie chart
 fig.gca().add_artist(centre_circle)
-plt.title('Pie', x=0.5, y=0.55)
+plt.title(f'This Week\'s distance:\n {last_week_dist}', x=0.5, y=0.55)
 #plt.show()
 #pd.options.display.max_columns = 10
 #print(summary.dtypes)
