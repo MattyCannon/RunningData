@@ -17,8 +17,8 @@ def convert(seconds):
        seconds %= 60
        if hour != 0: return "%d:%02d:%02d" % (hour, minutes, seconds)
        else: return "%02d:%02d" % (minutes, seconds)
-
-summary = df_activities.head(x=5)
+n=5
+summary = df_activities.head(n)
 summary['start_date'] = pd.to_datetime(summary['start_date']).dt.strftime('%d/%m/%Y')  # Convert start_date to datetime
 summary['distance'] = summary['distance'].apply(lambda x: round((x/1000), 2)).astype(str)
 pd.options.display.float_format = '${:,.2f}'.format
