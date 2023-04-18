@@ -2,7 +2,7 @@ import stravaConnect as sc
 import streamlit as st
 import pandas as pd
 import os
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 import datetime
 #df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
