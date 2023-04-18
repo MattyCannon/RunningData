@@ -1,13 +1,14 @@
 
 import requests
-import logging
+#import logging
 import urllib3
 import os
-from py_dotenv import dotenv
+#from dotenv import dotenv
 import pandas as pd
 import openpyxl
+import streamlit as st
 
-dotenv.read_dotenv("C:\\Users\\MatthewCannon\\PycharmProjects\\strava\\.env.txt")
+#dotenv.read_dotenv("C:\\Users\\MatthewCannon\\PycharmProjects\\strava\\.env.txt")
 api_call_count = 0
 
 def get_auth():
@@ -16,12 +17,14 @@ def get_auth():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     auth_url = "https://www.strava.com/oauth/token"
     keyList = ["client_id", "client_secret", "refresh_token", "grant_type", "f"]
-    valList = [os.environ.get("client_id"), os.environ.get("client_secret"), os.environ.get("refresh_token_read"),
-               "refresh_token", "json"]
+    #valList = [os.environ.get("client_id"), os.environ.get("client_secret"), os.environ.get("refresh_token_read"),
+    #           "refresh_token", "json"]
+    valList = [st.secrets["client_id"], st.secrets["client_secret"], st.secrets["refresh_token_read"],
+    "refresh_token", "json"]
     payload = dict(list(zip(keyList, valList)))
     res = requests.post(auth_url, data=payload, verify=False)
     api_call_count += 1
-    #print('call count: ' + str(api_call_count))
+    print('call count: ' + str(api_call_count))
     #print(res.json())
     access_token_read = res.json()['access_token']
     #print("Access Token = {}\n".format(access_token_read))
@@ -34,7 +37,7 @@ def get_fromAPI(access_token, api):
     param = {'per_page': 200, 'page': 1}
     my_dataset = requests.get(activities_url, headers=header_read, params=param).json()
     api_call_count += 1
-    #print('call count: ' + str(api_call_count))
+    print('call count: ' + str(api_call_count))
     df = pd.json_normalize(my_dataset)
     # nonStrava = df[df["manual"]]    # needed for altering the nonStrava heartrate / elevation data. Don't need to run.
     # nonStrava.to_excel("Non_Strava.xlsx")
@@ -42,7 +45,6 @@ def get_fromAPI(access_token, api):
 
 
 #df_activities = get_fromAPI(get_auth(), "activities")
-#df_activities.to_excel('data1.xlsx')
 #df_athlete = get_fromAPI(get_auth(), "athlete")  # needs to be normalised
 #df_shoes = df_athlete.filter(items=["id", "shoes"]).rename(columns={"id": "athleteId"})
 #df_bikes = df_athlete.filter(items=["id", "bikes"]).rename(columns={"id": "athleteId"})
@@ -69,7 +71,6 @@ def singleActivities(load_type = 0):
     load_type: 0 = incremental, 1 = full.
     '''
     global api_call_count
-    df_activities = get_fromAPI(get_auth(), "activities")
     manual_filter = df_activities[df_activities["manual"] == False]
     df_existing = pd.read_excel('single_out.xlsx')
     if load_type == 0:
@@ -180,4 +181,3 @@ def decode_polyline(polyline_str):
 #df2 = df[df['map_polyline_coords'].notnull()]
 #df2['latitude'], df2['longitude'] = zip(*(df2["map_polyline_coords"]))
 #print(df2)
-
