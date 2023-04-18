@@ -21,7 +21,7 @@ def convert(seconds):
 summary = df_activities.head()
 summary['start_date'] = pd.to_datetime(summary['start_date']).dt.strftime('%d/%m/%Y')  # Convert start_date to datetime
 summary['distance'] = summary['distance'].apply(lambda x: round((x/1000), 2)).astype(str)
-summary['distance'].map('${:,.2f'.format)
+pd.options.display.float_format = '${:,.2f}'.format
 #summary['moving_time'] = np.floor(summary['moving_time']/60) #str(math.floor(summary['moving_time']/60)) #+ ':' + round(60*(summary['moving_time']/60 - math.floor(summary['moving_time']/60)), 2)
 summary['moving_time'] = summary['moving_time'].apply(convert)
 summary = summary.filter(items=['name', 'distance', 'moving_time', 'total_elevation_gain', 'start_date'])
