@@ -7,7 +7,10 @@ df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
 
 summary = df_activities.head()
 summary['start_date'] = pd.to_datetime(summary['start_date'])  # Convert start_date to datetime
-summary['distance'] = '%2f'.format(summary['distance']/1000)
+summary['distance'] = round(summary['distance']/1000, 2)
+summary['moving_time'] = summary['moving_time']/60
+summary = summary.filter(items=['name', 'distance', 'moving_time', 'total_elevation_gain', 'start_date'])
+
 today = datetime.datetime.now()
 last_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6)))]
 last_week_dist = sum(last_week_distance_col['distance'])
