@@ -27,12 +27,21 @@ summary['moving_time'] = summary['moving_time'].apply(convert)
 summary = summary.filter(items=['name', 'distance', 'moving_time', 'total_elevation_gain', 'start_date'])
 
 today = datetime.datetime.now()
-last_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6)))]
-last_week_dist = sum(last_week_distance_col['distance'])
+this_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6)))]
+this_week_dist = sum(this_week_distance_col['distance'])
 weekly_goal = 10.0 * 1000
+last_week_distance_col = df_activities[
+       df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-13)))
+       &
+       df_activities['start_date'] < str(pd.Timestamp(today + datetime.timedelta(days=-6)))
+]
+last_week_dist = sum(last_week_distance_col['distance'])
+dist_difference = this_week_dist - last_week_dist
+
+### CHART ###
 fig, ax = plt.subplots()
 labels = 'distance', 'hi'
-ax.pie([last_week_dist/weekly_goal, 1-last_week_dist/weekly_goal],
+ax.pie([this_week_dist/weekly_goal, 1-this_week_dist/weekly_goal],
        colors=[(255/255, 84/255, 0), (255/255, 187/255, 153/255)],
        pctdistance=0.85,
        explode=(0.05, 0.05)
@@ -49,23 +58,9 @@ plt.title(f'This Week\'s distance:\n {last_week_dist}', x=0.5, y=0.45)
 #print(summary.dtypes)
 #print(summary)
 
+### DISPLAY ###
 st.header('My Running Data')
 st.header('Recent Runs: ')
 st.table(summary)
 st.pyplot(fig)
 
-import time
-
-'Starting a long computation...'
-
-# Add a placeholder
-latest_iteration = st.empty()
-bar = st.progress(0)
-
-for i in range(100):
-  # Update the progress bar with each iteration.
-  latest_iteration.text(f'Iteration {i+1}')
-  bar.progress(i + 1)
-  time.sleep(0.1)
-
-'...and now we\'re done!'
