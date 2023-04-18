@@ -44,7 +44,7 @@ def get_fromAPI(access_token, api):
     return df
 
 
-df_activities = get_fromAPI(get_auth(), "activities")
+#df_activities = get_fromAPI(get_auth(), "activities")
 #df_athlete = get_fromAPI(get_auth(), "athlete")  # needs to be normalised
 #df_shoes = df_athlete.filter(items=["id", "shoes"]).rename(columns={"id": "athleteId"})
 #df_bikes = df_athlete.filter(items=["id", "bikes"]).rename(columns={"id": "athleteId"})
@@ -181,6 +181,3 @@ def decode_polyline(polyline_str):
 #df2 = df[df['map_polyline_coords'].notnull()]
 #df2['latitude'], df2['longitude'] = zip(*(df2["map_polyline_coords"]))
 #print(df2)
-
-st.header('Test')
-st.table(df_activities)
