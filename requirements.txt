@@ -1,6 +1,6 @@
 requests
 logging
 urllib3
-py_dotenv
+dotenv
 pandas
 openpyxl
