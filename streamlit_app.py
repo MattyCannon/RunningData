@@ -28,15 +28,15 @@ summary = summary.filter(items=['name', 'distance', 'moving_time', 'total_elevat
 
 today = datetime.datetime.now()
 this_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6)))]
-this_week_dist = sum(this_week_distance_col['distance'])
-weekly_goal = 10.0 * 1000
-goal_difference = goal = this_week_dist
+this_week_dist = sum(this_week_distance_col['distance'])/1000
+weekly_goal = 10.0
+goal_difference = (weekly_goal - this_week_dist)/1000
 last_week_distance_col = df_activities[
        (df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-13))))
        &
        (df_activities['start_date'] < str(pd.Timestamp(today + datetime.timedelta(days=-6))))
 ]
-last_week_dist = sum(last_week_distance_col['distance'])
+last_week_dist = sum(last_week_distance_col['distance'])/1000
 dist_difference = this_week_dist - last_week_dist
 
 ### CHART ###
@@ -66,5 +66,6 @@ st.header('My Running Data')
 st.header('Recent Runs: ')
 st.table(summary)
 st.pyplot(fig)
-st.metric('Distance Goal', value=this_week_dist, delta=goal_difference)
+st.metric('Distance Goal', value=weekly_goal, delta=goal_difference)
+st.metric('Last Week Distance Difference', value=last_week_dist, delta=dist_difference)
 
