@@ -31,9 +31,9 @@ this_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Time
 this_week_dist = sum(this_week_distance_col['distance'])
 weekly_goal = 10.0 * 1000
 last_week_distance_col = df_activities[
-       (df_activities['start_date'] < str(pd.Timestamp(today + datetime.timedelta(days=-13))))
+       (df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-13))))
        &
-       (df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6))))
+       (df_activities['start_date'] < str(pd.Timestamp(today + datetime.timedelta(days=-6))))
 ]
 last_week_dist = sum(last_week_distance_col['distance'])
 dist_difference = this_week_dist - last_week_dist
@@ -41,7 +41,9 @@ dist_difference = this_week_dist - last_week_dist
 ### CHART ###
 fig, ax = plt.subplots()
 labels = 'distance', 'hi'
-ax.pie([last_week_dist/weekly_goal, 1-last_week_dist/weekly_goal],
+proportion = last_week_dist/weekly_goal
+if proportion > 1: proportion = 1
+ax.pie([proportion, 1-proportion],
        colors=[(255/255, 84/255, 0), (255/255, 187/255, 153/255)],
        pctdistance=0.85,
        explode=(0.05, 0.05)
