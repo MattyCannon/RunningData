@@ -2,13 +2,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import stravaConnect as sc
 import streamlit as st
+import math
 import datetime
 df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
 
 summary = df_activities.head()
 summary['start_date'] = pd.to_datetime(summary['start_date'])  # Convert start_date to datetime
 summary['distance'] = round(summary['distance']/1000, 2)
-summary['moving_time'] = summary['moving_time']/60
+summary['moving_time'] = str(math.floor(summary['moving_time']/60)) + ':' + round(60*(summary['moving_time']/60 - math.floor(summary['moving_time']/60)), 2)
 summary = summary.filter(items=['name', 'distance', 'moving_time', 'total_elevation_gain', 'start_date'])
 
 today = datetime.datetime.now()
