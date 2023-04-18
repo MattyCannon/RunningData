@@ -41,7 +41,7 @@ dist_difference = this_week_dist - last_week_dist
 ### CHART ###
 fig, ax = plt.subplots()
 labels = 'distance', 'hi'
-ax.pie([this_week_dist/weekly_goal, 1-this_week_dist/weekly_goal],
+ax.pie([last_week_dist/weekly_goal, 1-last_week_dist/weekly_goal],
        colors=[(255/255, 84/255, 0), (255/255, 187/255, 153/255)],
        pctdistance=0.85,
        explode=(0.05, 0.05)
