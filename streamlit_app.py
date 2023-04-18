@@ -4,7 +4,7 @@ import stravaConnect as sc
 import streamlit as st
 import math
 import datetime
-import numpy as np
+import numpy as np #
 
 df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
 
