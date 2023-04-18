@@ -1,7 +1,8 @@
 import stravaConnect as sc
 import streamlit as st
 
-df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
+#df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
+df_activities = pd.read_excel('data1.xlsx')
 
 summary = df_activities.head
 st.header('My Running Data')
