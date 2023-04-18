@@ -41,7 +41,7 @@ dist_difference = this_week_dist - last_week_dist
 ### CHART ###
 fig, ax = plt.subplots()
 labels = 'distance', 'hi'
-proportion = last_week_dist/weekly_goal
+proportion = this_week_dist/weekly_goal
 if proportion > 1: proportion = 1
 ax.pie([proportion, 1-proportion],
        colors=[(255/255, 84/255, 0), (255/255, 187/255, 153/255)],
