@@ -31,9 +31,9 @@ this_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Time
 this_week_dist = sum(this_week_distance_col['distance'])
 weekly_goal = 10.0 * 1000
 last_week_distance_col = df_activities[
-       df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-13)))
+       (df_activities['start_date'] < str(pd.Timestamp(today + datetime.timedelta(days=-13))))
        &
-       df_activities['start_date'] < str(pd.Timestamp(today + datetime.timedelta(days=-6)))
+       (df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6))))
 ]
 last_week_dist = sum(last_week_distance_col['distance'])
 dist_difference = this_week_dist - last_week_dist
