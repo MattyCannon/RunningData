@@ -18,7 +18,7 @@ def convert(seconds):
        if hour != 0: return "%d:%02d:%02d" % (hour, minutes, seconds)
        else: return "%02d:%02d" % (minutes, seconds)
 
-summary = df_activities.head()
+summary = df_activities.head(x=5)
 summary['start_date'] = pd.to_datetime(summary['start_date']).dt.strftime('%d/%m/%Y')  # Convert start_date to datetime
 summary['distance'] = summary['distance'].apply(lambda x: round((x/1000), 2)).astype(str)
 pd.options.display.float_format = '${:,.2f}'.format
@@ -53,3 +53,19 @@ st.header('My Running Data')
 st.header('Recent Runs: ')
 st.table(summary)
 st.pyplot(fig)
+
+import time
+
+'Starting a long computation...'
+
+# Add a placeholder
+latest_iteration = st.empty()
+bar = st.progress(0)
+
+for i in range(100):
+  # Update the progress bar with each iteration.
+  latest_iteration.text(f'Iteration {i+1}')
+  bar.progress(i + 1)
+  time.sleep(0.1)
+
+'...and now we\'re done!'
