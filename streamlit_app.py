@@ -1,25 +1,16 @@
+import pandas as pd
+import matplotlib.pyplot as plt
 import stravaConnect as sc
 import streamlit as st
-import pandas as pd
-import os
-import matplotlib.pyplot as plt
-
 import datetime
-#df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
-df_activities = pd.read_excel('data1.xlsx')
+df_activities = sc.get_fromAPI(sc.get_auth(), "activities")
 
-summary = df_activities.filter(items = ['name', 'distance', 'moving_time', 'start_date']).head()
-st.header('My Running Data')
-st.header('Recent Runs: ')
-st.table(summary)
-
-longest_run = max(df_activities['distance'])
-st.write(f'longest run: {longest_run}')
+summary = df_activities.head()
+summary['start_date'] = pd.to_datetime(summary['start_date'])  # Convert start_date to datetime
+summary['distance'] = '%2f'.format(summary['distance']/1000)
 today = datetime.datetime.now()
-
 last_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6)))]
 last_week_dist = sum(last_week_distance_col['distance'])
-
 weekly_goal = 10.0 * 1000
 fig, ax = plt.subplots()
 labels = 'distance', 'hi'
@@ -35,4 +26,9 @@ fig = plt.gcf()
 # Adding Circle in Pie chart
 fig.gca().add_artist(centre_circle)
 plt.title('Pie', x=0.5, y=0.55)
+#plt.show()
+
+st.header('My Running Data')
+st.header('Recent Runs: ')
+st.table(summary)
 st.pyplot(fig)
