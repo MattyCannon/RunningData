@@ -11,8 +11,5 @@ st.header('My Running Data')
 st.header('Recent Runs: ')
 st.table(summary)
 
-#print(df_activities.columns)
-#longest_run = max(df_activities['distance'])
-
-#st.write(f'longest run: {longest_run}')
-st.write(os.listdir())
+longest_run = max(df_activities['distance'])
+st.write(f'longest run: {longest_run}')
