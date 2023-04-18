@@ -3,11 +3,12 @@ import requests
 import logging
 import urllib3
 import os
-from dotenv import dotenv
+#from dotenv import dotenv
 import pandas as pd
 import openpyxl
+import streamlit as st
 
-dotenv.read_dotenv("C:\\Users\\MatthewCannon\\PycharmProjects\\strava\\.env.txt")
+#dotenv.read_dotenv("C:\\Users\\MatthewCannon\\PycharmProjects\\strava\\.env.txt")
 api_call_count = 0
 
 def get_auth():
@@ -16,8 +17,10 @@ def get_auth():
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     auth_url = "https://www.strava.com/oauth/token"
     keyList = ["client_id", "client_secret", "refresh_token", "grant_type", "f"]
-    valList = [os.environ.get("client_id"), os.environ.get("client_secret"), os.environ.get("refresh_token_read"),
-               "refresh_token", "json"]
+    #valList = [os.environ.get("client_id"), os.environ.get("client_secret"), os.environ.get("refresh_token_read"),
+    #           "refresh_token", "json"]
+    valList = [st.secrets["client_id"], st.secrets["client_secret"], st.secrets["refresh_token_read"],
+    "refresh_token", "json"]
     payload = dict(list(zip(keyList, valList)))
     res = requests.post(auth_url, data=payload, verify=False)
     api_call_count += 1
@@ -130,9 +133,9 @@ def splitsOrSegments(strata, load_type = 0):
         return df_existing
 
 #df_splits = splitsOrSegments('splits_metric', load_type=1)
-df_singles = singleActivities(load_type=0)
+#df_singles = singleActivities(load_type=0)
 
-df_singles.to_excel('single_out.xlsx')
+#df_singles.to_excel('single_out.xlsx')
 #df_splits.to_excel('splits_out.xlsx')
 
 ## Map polyline stuff ##
