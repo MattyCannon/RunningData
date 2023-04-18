@@ -30,6 +30,7 @@ today = datetime.datetime.now()
 this_week_distance_col = df_activities[df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-6)))]
 this_week_dist = sum(this_week_distance_col['distance'])
 weekly_goal = 10.0 * 1000
+goal_difference = goal = this_week_dist
 last_week_distance_col = df_activities[
        (df_activities['start_date'] > str(pd.Timestamp(today + datetime.timedelta(days=-13))))
        &
@@ -54,7 +55,7 @@ fig = plt.gcf()
 
 # Adding Circle in Pie chart
 fig.gca().add_artist(centre_circle)
-plt.title(f'This Week\'s distance:\n {last_week_dist}', x=0.5, y=0.45)
+plt.title(f'This Week\'s distance:\n {this_week_dist}', x=0.5, y=0.45)
 #plt.show()
 #pd.options.display.max_columns = 10
 #print(summary.dtypes)
@@ -65,4 +66,5 @@ st.header('My Running Data')
 st.header('Recent Runs: ')
 st.table(summary)
 st.pyplot(fig)
+st.metric('Distance Goal', value=this_week_dist, delta=goal_difference)
 
